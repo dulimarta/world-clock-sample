@@ -1,0 +1,9 @@
+<span>
+  <canvas
+    #clock
+    [attr.width]="CLOCK_DIAMETER"
+    [attr.height]="CLOCK_DIAMETER"
+  ></canvas>
+  <h2>{{ prettyTime }}</h2>
+  <h4>{{ label }} / GMT{{ offset }}</h4>
+</span>

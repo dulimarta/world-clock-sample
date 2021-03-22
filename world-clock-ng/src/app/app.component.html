@@ -1,0 +1,51 @@
+<style>
+  :host {
+    font-size: 14px;
+    color: rgb(185, 40, 40);
+    box-sizing: border-box;
+  }
+  #error {
+    display: inline-block;
+    border: 2px solid red;
+    border-radius: 1em;
+    padding: 0.5em;
+    margin-bottom: 2em;
+  }
+</style>
+
+<div class="content">
+  <div id="error" *ngIf="apiKeyMissing()">
+    Your setup is missing the .env file at the top of your project folder, or
+    API_KEY is not defined in that file
+  </div>
+  <div>
+    Enter city name (or its prefix)
+    <input type="text" [(ngModel)]="cityPrefix" (blur)="showCities()" />
+  </div>
+
+  <ng-container *ngIf="availableCities.length > 0">
+    <select
+      id="city-select"
+      [(ngModel)]="selectedCityIndex"
+      (change)="onCitySelected()"
+    >
+      <option value="-1" disabled selected>Select a city</option>
+      <option
+        *ngFor="let c of availableCities; let pos = index"
+        [attr.value]="pos"
+      >
+        {{ c.city }}, {{ c.country }}
+      </option>
+    </select>
+  </ng-container>
+
+  <div>
+    <app-world-clock
+      *ngFor="let c of selectedCities"
+      [label]="c.city"
+      [timeZone]="c.tz?.TimeZoneId"
+      [gmtOffset]="c.tz?.GMT_offset"
+    >
+    </app-world-clock>
+  </div>
+</div>
